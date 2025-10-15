@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cstdlib>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -29,14 +30,11 @@ int main() {
 //
 // greedy solution: first pair up
 void solve() {
-  int n;
-  int t;
+  int n,t;
 
   cin >> n;
   cin.ignore();
   pmr::vector<signed int> p;
-  vi r;
-  r.reserve(n/2);
   p.reserve(n);
   string line;
   getline(cin, line);
@@ -46,50 +44,57 @@ void solve() {
     p.push_back(num);
   }
 
-
-
-
   sort(p.begin(), p.end());
   t = 0;
   int m = 0;
-  
   for (int i = 0; i < n / 2; i++) {
-    auto l = p[2 * i + 1] - p[2 * i];
-    r[i] = l
+    auto l = abs(p[2 * i + 1] - p[2 * i]);
     if (l > t) {
       t = l;
       m = i;
     }
   }
-
-  int prev_max = r[m];
-  int prev_idz = m;
-  int cur_max = r[m];
-  int cur_idx = m;
-  for (int i =0; i < n; i++) {
-    // forall even i, check if swapping m.x or m.y decreases both sides to be lower than cur_max 
-    // forall odd i, check if swapping i with m.x | m.y changes anything, using n-1 as the test
+  cout << t;
+  int pm = t;
+  int pi = m;
+  int cm = t;
+  int ci = m;
+  bool s = false;
+  while (true) {
+    pm = cm;
+    pi = ci;
+    for (int i = 0; i < n / 2; i++) {
+      if (i == m) {
+        continue;
+      }
+      int a1 = abs(p[2 * i] - p[2 * m]);
+      int a2 = abs(p[2 * i + 1] - p[2 * m + 1]);
+      int b1 = abs(p[2 * i] - p[2 * m + 1]);
+      int b2 = abs(p[2 * i + 1] - p[2 * m]);
+      if (a2 <= cm && a1 <= cm) {
+        cm = a2 > a1 ? a2 : a1;
+        s = false;
+        ci = 2 * i;
+      }
+      if (b2 <= cm && b1 <= cm) {
+        cm = b2 > b1 ? b2 : b1;
+        s = true;
+        ci = 2 * i;
+      }
     }
+    if (cm == pm) {
+      cout << cm << '\n';
+      return;
+    }
+    if (s) {
+      int t = p[2 * ci + 1];
+      p[2 * ci + 1] = p[2 * m];
+      p[2 * m] = t;
+
+    } else {
+      int t = p[2 * ci + 1];
+      p[2 * ci + 1] = p[2 * m + 1];
+      p[2 * m + 1] = t;
+    }
+  }
 }
-
-
-
-// 5
-// 2
-// 1 2
-// 4
-// 10 1 2 9
-// 6
-// 3 8 9 3 3 2
-// 8
-// 5 5 5 5 5 5 5 5
-// 4
-// -5 -1 2 6
-
-
-
-// 1
-// 1
-// 1
-// 0
-// 4
