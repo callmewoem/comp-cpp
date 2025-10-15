@@ -4,7 +4,6 @@
 #include <string>
 #include <utility>
 #include <vector>
-
 using namespace std;
 
 typedef long long ll;
@@ -32,11 +31,12 @@ int main() {
 void solve() {
   int n;
   int t;
-  pmr::vector<pi> pairs;
 
   cin >> n;
   cin.ignore();
   pmr::vector<signed int> p;
+  vi r;
+  r.reserve(n/2);
   p.reserve(n);
   string line;
   getline(cin, line);
@@ -51,13 +51,25 @@ void solve() {
 
   sort(p.begin(), p.end());
   t = 0;
+  int m = 0;
+  
   for (int i = 0; i < n / 2; i++) {
-    pairs.push_back(pair(2*i+1,2*i));
     auto l = p[2 * i + 1] - p[2 * i];
+    r[i] = l
     if (l > t) {
       t = l;
+      m = i;
     }
   }
+
+  int prev_max = r[m];
+  int prev_idz = m;
+  int cur_max = r[m];
+  int cur_idx = m;
+  for (int i =0; i < n; i++) {
+    // forall even i, check if swapping m.x or m.y decreases both sides to be lower than cur_max 
+    // forall odd i, check if swapping i with m.x | m.y changes anything, using n-1 as the test
+    }
 }
 
 
