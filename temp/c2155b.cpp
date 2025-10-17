@@ -12,7 +12,7 @@ typedef std::pair<int, int> pi;
 
 
 void solve();
-int count(char *a,int n);
+int count(char (*a)[100][100],bool (*b)[100][100], int n);
 
 int main() {
   int t;
@@ -39,14 +39,14 @@ void solve() {
     }
   }
 
-  
+  cout << count(&a,&b,n);
 
   
 }
 
 
 // p sure this is unneccesary because in actual logic i would just set this switch to true in the "calculatorics"
-int count(char *a[100][100],bool *b[100][100],int n) {
+int count(char (*a)[100][100],bool (*b)[100][100],int n) {
   int k;
   for (int i = 0; i < n; i++) {
     for (int j = 0; i < n; j++) {
